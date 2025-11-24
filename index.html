@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="jp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="fonts.css">
+    <script src="jquery-3.5.1.min.js" defer></script>
+    <title>CCC文字コード表</title>
+</head>
+<body>
+<header>
+    <h1>CCC文字コード表</h1>
+</header>
+<main>
+    <div class="container">
+        <div class="lang">
+            <h2>言語コード</h2>
+            <table id="lang">
+                <tr><th>言語</th><th>コード</th><th>割り当て範囲</th></tr>
+            </table>
+        </div>
+        <div class="char">
+            <h2>文字コード</h2>
+            <table id="char">
+                <tr><th class="side"></th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>A</th><th>B</th><th>C</th><th>D</th><th>E</th><th>F</th></tr>
+            </table>
+        </div>
+        <div class="disp">
+            <h2>詳細</h2>
+            <div class="label">
+                <p class="display">a</p>
+            </div>
+            <p class="this_lang">Alphabet</p>
+            <p class="code">C+0000</p>
+            <p class="transcription">A</p>
+        </div>
+    </div>
+</main>
+<footer>
+    <p>&copy; 2024 CCC文字コード表</p>
+</footer>
+</body>
+<script>
+fetch("data.json")
+    .then(response => response.json())
+    .then(data => {
+        let laws = 0;
+        data.forEach(item => {
+            const row = `<tr><td>${item.lang}語</td><td>${item.code}</td><td>${toHex(laws, 3)}0 - ${toHex(laws + item.need - 1, 3)}F</td></tr>`;
+            let add_style = "";
+            if (item.font !== null) {
+                add_style = ` style="font-family: '${item.font}';"`;
+            }
+            $('#lang').append(row);
+            for (let i = 0; i < item.need; i++) {
+                let now_law = laws + i;
+                let law_txt = `<tr><th class="side">${toHex(now_law, 3)}x</th>`;
+                for (let j = 0; j < 16; j++) {
+                    if (i * 16 + j >= item.characters.length) {
+                        law_txt += `<td class="empty"></td>`;
+                    } else {
+                        law_txt += `<td${add_style} class="${item.code}" data-lang="${item.lang}" data-topgap="${item.top_gap}">${item.characters[i * 16 + j]}</td>`;
+                    }
+                }
+                law_txt += `</tr>`;
+                $('#char').append(law_txt);
+            }
+            laws += item.need;
+        });
+
+        $('#char td').hover(function() {
+            hoverChar.call(this);
+        });
+
+        $("#lang tr").hover(function() {
+            const code = $(this).find("td:nth-child(2)").text();
+            if (code === '') return;
+            $(`#char td.${code}`).addClass('highlight');
+        }, function() {
+            const code = $(this).find("td:nth-child(2)").text();
+            if (code === '') return;
+            $(`#char td.${code}`).removeClass('highlight');
+        });
+    });
+
+function toHex(num, length) {
+    return num.toString(16).toUpperCase().padStart(length, '0');
+}
+
+function hoverChar(element) {
+    const char = $(this).text();
+    if (char === '') return;
+    const col = $(this).index() - 1;
+    const row = $(this).parent().index() - 1;
+    const code = `C+${toHex(row * 16 + col, 4)}`;
+    $('.display').text(char);
+    $('.display').css('font-family', $(this).css('font-family'));
+    const top_gap = parseInt($(this).data('topgap'));
+    if (!isNaN(top_gap) && top_gap > 0) {
+        $('.display').css('margin-top', top_gap + 'px');
+    } else {
+        $('.display').css('margin-top', '0px');
+    }
+    $('.transcription').text("文字転写：" + $(this).text());
+    $('.this_lang').text($(this).data('lang') + "語");
+    $('.code').text(code);
+}
+</script>
+</html>
