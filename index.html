@@ -53,19 +53,7 @@ fetch("data.json")
                 add_style = ` style="font-family: '${item.font}';"`;
             }
             $('#lang').append(row);
-            for (let i = 0; i < item.need; i++) {
-                let now_law = laws + i;
-                let law_txt = `<tr><th class="side">${toHex(now_law, 3)}x</th>`;
-                for (let j = 0; j < 16; j++) {
-                    if (i * 16 + j >= item.characters.length) {
-                        law_txt += `<td class="empty"></td>`;
-                    } else {
-                        law_txt += `<td${add_style} class="${item.code}" data-lang="${item.lang}" data-topgap="${item.top_gap}">${item.characters[i * 16 + j]}</td>`;
-                    }
-                }
-                law_txt += `</tr>`;
-                $('#char').append(law_txt);
-            }
+            setTd(item, laws, add_style);
             laws += item.need;
         });
 
@@ -83,6 +71,25 @@ fetch("data.json")
             $(`#char td.${code}`).removeClass('highlight');
         });
     });
+
+async function setTd(item, laws, add_style) {
+    for (let i = 0; i < item.need; i++) {
+        let now_law = laws + i;
+        let law_txt = `<tr><th class="side">${toHex(now_law, 3)}x</th>`;
+        for (let j = 0; j < 16; j++) {
+            if (i * 16 + j >= item.characters.length) {
+                law_txt += `<td class="empty"></td>`;
+            } else {
+                if (item.changes && item.changes[item.characters[i * 16 + j]]) {
+                    law_txt += `<td${add_style} class="${item.code}" data-changed="${item.changes[item.characters[i * 16 + j]]}" data-lang="${item.lang}" data-topgap="${item.top_gap}">${item.characters[i * 16 + j]}</td>`;
+                } else
+                law_txt += `<td${add_style} class="${item.code}" data-lang="${item.lang}" data-topgap="${item.top_gap}">${item.characters[i * 16 + j]}</td>`;
+            }
+        }
+        law_txt += `</tr>`;
+        $('#char').append(law_txt);
+    }
+}
 
 function toHex(num, length) {
     return num.toString(16).toUpperCase().padStart(length, '0');
@@ -102,9 +109,10 @@ function hoverChar(element) {
     } else {
         $('.display').css('margin-top', '0px');
     }
-    $('.transcription').text("文字転写：" + $(this).text());
+    $('.transcription').text("文字転写：" + ($(this).data('changed') || $(this).text()));
     $('.this_lang').text($(this).data('lang') + "語");
     $('.code').text(code);
 }
 </script>
+
 </html>
