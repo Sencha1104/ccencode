@@ -10,9 +10,18 @@ header {
     color: white;
     padding: 10px 0;
     text-align: center;
+    display: flex;
+    align-items: center;
 }
 
-h1 {
+@media (max-width: 700px) {
+    header {
+        flex-direction: column;
+    }
+    
+}
+
+h1, p {
     margin: 0;
 }
 
@@ -117,4 +126,23 @@ tr:nth-child(even) {
 .highlight {
     background-color: #ff6 !important;
 
+}
+
+a.button {
+    display: inline-block;
+    padding: 10px 20px;
+    margin: 10px;
+    background-color: white;
+    color: #aaf;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-left: 20px;
+    align-items: right;
+    width: 130px;
+}
+
+header h1 {
+    flex-grow: 1;
+    text-align: center;
 }
