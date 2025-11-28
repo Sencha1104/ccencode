@@ -1,6 +1,6 @@
 [
     {
-        "lang": "Sitelen pona",
+        "lang": "Toki Pona",
         "code": "SL-TOK-0-STP",
         "need": 10,
         "font": null,
@@ -9,7 +9,7 @@
         ]
     },
     {
-        "lang": "アルカ語文字",
+        "lang": "アルカ",
         "code": "SA-ARK-0",
         "need": 7,
         "font": null,
@@ -18,7 +18,7 @@
         ]
     },
     {
-        "lang": "シャレイア語文字",
+        "lang": "Shaleian",
         "code": "ZP-SHL-0-NEW",
         "need": 3,
         "font": "shareia",
@@ -29,7 +29,7 @@
         ]
     },
     {
-        "lang": "クリンゴン語文字",
+        "lang": "クリンゴン語",
         "code": "MO-TLH-0-PLQ",
         "need": 3,
         "font": null,
@@ -38,7 +38,7 @@
         ]
     },
     {
-        "lang": "多久後語文字",
+        "lang": "多久後語",
         "code": "TG-TAG-0",
         "need": 4,
         "font": "takugo",
@@ -50,7 +50,7 @@
         ]
     },
     {
-        "lang": "logmasnit語文字",
+        "lang": "logmasnit語",
         "code": "SC-LOG-0",
         "need": 2,
         "font": "logmasnit",
@@ -60,7 +60,7 @@
         ]
     },
     {
-        "lang": "多久後語文字拡張",
+        "lang": "多久後語拡張",
         "code": "TG-TAG-0-EXT",
         "need": 12,
         "font": "takugo",
@@ -99,7 +99,7 @@
         }
     },
     {
-        "lang": "ケーベル語文字",
+        "lang": "ケーベル語",
         "code": "OK-KVL-0-AYM",
         "need": 4,
         "font": null,
@@ -108,4 +108,5 @@
         ]
     }
 ]
+
 
