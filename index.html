@@ -55,7 +55,7 @@ fetch("data.json")
     .then(data => {
         let laws = 0;
         data.forEach(item => {
-            const row = `<tr><td>${item.lang}語</td><td>${item.code}</td><td>${toHex(laws, 3)}0 - ${toHex(laws + item.need - 1, 3)}F</td></tr>`;
+            const row = `<tr><td>${item.lang}</td><td>${item.code}</td><td>${toHex(laws, 3)}0 - ${toHex(laws + item.need - 1, 3)}F</td></tr>`;
             let add_style = "";
             if (item.font !== null) {
                 add_style = ` style="font-family: '${item.font}';"`;
@@ -124,6 +124,7 @@ function hoverChar(element) {
 </script>
 
 </html>
+
 
 
 
